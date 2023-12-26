@@ -4,6 +4,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import java.util.List;
 
 public class JpaMain {
     public static void main(String[] args) {
@@ -29,9 +30,12 @@ public class JpaMain {
             em.clear(); // 영속성 컨텍스트를 초기화 한다 -> DB에서 정보를 불러 올 수 있다.
 
             Member findMember = em.find(Member.class, member.getId());
-            Team findTeam = findMember.getTeam();
-            System.out.println("findTeam Id = "+ findTeam.getName());
+            List<Member> members = findMember.getTeam().getMembers();
 
+            for(Member m : members){
+                System.out.println("m : "+ m.getUsername());
+
+            }
             tx.commit(); // [트랜잭션] 커밋
         }catch (Exception e){
             tx.rollback();

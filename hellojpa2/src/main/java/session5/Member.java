@@ -15,7 +15,7 @@ public class Member {
 /*    @Column(name = "TEAM_ID")
     private Long teamId;*/
 
-    @ManyToOne
+    @ManyToOne // Many 에 해당하는 곳이 연관관계의 주인이다
     @JoinColumn(name = "TEAM_ID")
     private Team team;
 
