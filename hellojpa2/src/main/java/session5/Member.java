@@ -12,6 +12,10 @@ public class Member {
     @Column(name = "USERNAME")
     private String username;
 
+    @ManyToOne
+    @JoinColumn(name = "TEAM_ID", insertable = false,updatable = false)
+    private Team team;
+    // 단순히 JoinColumn만 사용하면 Member도 양방향의 주인이 되지만 insertable ~ 사용함으로써 단순한 읽기전용필드로 된다.
 
     public Long getId() {
         return id;
