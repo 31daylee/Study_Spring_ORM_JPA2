@@ -12,12 +12,6 @@ public class Member {
     @Column(name = "USERNAME")
     private String username;
 
-/*    @Column(name = "TEAM_ID")
-    private Long teamId;*/
-
-    @ManyToOne // Many 에 해당하는 곳이 연관관계의 주인이다
-    @JoinColumn(name = "TEAM_ID")
-    private Team team;
 
     public Long getId() {
         return id;
@@ -35,12 +29,5 @@ public class Member {
         this.username = username;
     }
 
-    public Team getTeam() {
-        return team;
-    }
-
-    public void setTeam(Team team) {
-        this.team = team;
-    }
 
 }
