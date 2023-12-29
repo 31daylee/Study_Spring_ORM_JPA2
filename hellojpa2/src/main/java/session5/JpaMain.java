@@ -19,9 +19,19 @@ public class JpaMain {
 
         try {
 
-            Member member = em.find(Member.class, 1L);
-            printMember(member);
-            //printMemberAndTeam(member);
+            Member member = new Member();
+            member.setUsername("hello");
+
+            em.persist(member);
+
+            em.flush();
+            em.clear();
+
+            //Member findmember = em.find(Member.class, member.getId());
+            Member findmember = em.getReference(Member.class, member.getId());
+            System.out.println("findMember :"+ findmember.getClass());
+            System.out.println("findMember.id : "+ findmember.getId());
+            System.out.println("findMember.userName : "+ findmember.getUsername());
 
             tx.commit(); // [트랜잭션] 커밋
         }catch (Exception e){
