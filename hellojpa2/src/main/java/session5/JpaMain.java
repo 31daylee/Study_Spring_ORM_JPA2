@@ -1,9 +1,6 @@
 package session5;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -30,11 +27,8 @@ public class JpaMain {
             em.flush();
             em.clear();
 
-            Member m1 = em.find(Member.class, member1.getId()); // Member 는 member로 가져오고
-            System.out.println("m1 = "+ m1.getTeam().getClass()); // team 은 proxy로 가져온다
-            System.out.println("==========");
-            m1.getTeam().getName(); // 초기화
-            System.out.println("==========");
+            // JPQL 사용 시에 Member 가져오지만 Member에 딸린 Team이 즉시 로딩이기에 한 번 더 쿼리가 날라감
+            List<Member> members = em.createQuery("select m from Member m", Member.class).getResultList();
 
 
             tx.commit(); // [트랜잭션] 커밋
