@@ -32,9 +32,12 @@ public class JpaMain {
             em.clear();
 
             Member m1 = em.find(Member.class, member1.getId());
-            Member m2 = em.getReference(Member.class, member2.getId());
+            System.out.println("m1 = "+ m1.getClass());
 
-            System.out.println("m1 == m2 : "+ (m1 instanceof Member));
+            Member reference = em.getReference(Member.class, member1.getId());
+            System.out.println("reference = "+ reference.getClass());
+
+            System.out.println("a == a : "+(m1 == reference)); // 한 영속성 컨텍스트 안에서 가져오기에 항상 true를 반환
 
 
             tx.commit(); // [트랜잭션] 커밋
