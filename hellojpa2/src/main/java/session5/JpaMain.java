@@ -18,26 +18,20 @@ public class JpaMain {
         tx.begin(); // [트랜잭션] 시작
 
         try {
+            Team team = new Team();
+            team.setName("teamA");
+            em.persist(team);
 
             Member member1 = new Member();
             member1.setUsername("member1");
+            member1.setTeam(team);
             em.persist(member1);
-
-
-            Member member2 = new Member();
-            member2.setUsername("member2");
-            em.persist(member2);
 
             em.flush();
             em.clear();
 
-            Member m1 = em.find(Member.class, member1.getId());
-            System.out.println("m1 = "+ m1.getClass());
-
-            Member reference = em.getReference(Member.class, member1.getId());
-            System.out.println("reference = "+ reference.getClass());
-
-            System.out.println("a == a : "+(m1 == reference)); // 한 영속성 컨텍스트 안에서 가져오기에 항상 true를 반환
+            Member m1 = em.find(Member.class, member1.getId()); // Member 는 member로 가져오고
+            System.out.println("m1 = "+ m1.getTeam().getClass()); // team 은 proxy로 가져온다
 
 
             tx.commit(); // [트랜잭션] 커밋

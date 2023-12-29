@@ -14,10 +14,10 @@ public class Member extends BaseEntity{
     @Column(name = "USERNAME")
     private String username;
 
-    @ManyToOne
-    @JoinColumn(name = "TEAM_ID", insertable = false,updatable = false)
+    @ManyToOne(fetch = FetchType.LAZY) // Member 클래스만 DB에서 조회
+    @JoinColumn
     private Team team;
-    // 단순히 JoinColumn만 사용하면 Member도 양방향의 주인이 되지만 insertable ~ 사용함으로써 단순한 읽기전용필드로 된다.
+
 
     @OneToOne
     @JoinColumn(name = "LOCKER_ID")
