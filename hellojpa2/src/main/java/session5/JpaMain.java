@@ -28,7 +28,7 @@ public class JpaMain {
             em.clear();
 
             // JPQL 사용 시에 Member 가져오지만 Member에 딸린 Team이 즉시 로딩이기에 한 번 더 쿼리가 날라감
-            List<Member> members = em.createQuery("select m from Member m", Member.class).getResultList();
+            List<Member> members = em.createQuery("select m from Member m join fetch m.team", Member.class).getResultList();
 
 
             tx.commit(); // [트랜잭션] 커밋
