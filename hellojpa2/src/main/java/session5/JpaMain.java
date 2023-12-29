@@ -19,14 +19,9 @@ public class JpaMain {
 
         try {
 
-            Member member = new Member();
-            member.setUsername("user");
-            member.setCreatedBy("kim");
-            member.setCreatedDate(LocalDateTime.now());
-            em.persist(member);
-
-            em.flush();
-            em.clear();
+            Member member = em.find(Member.class, 1L);
+            printMember(member);
+            //printMemberAndTeam(member);
 
             tx.commit(); // [트랜잭션] 커밋
         }catch (Exception e){
@@ -39,5 +34,16 @@ public class JpaMain {
 
 
 
+    }
+
+    private static void printMember(Member member) {
+        System.out.println("member : "+ member.getUsername());
+    }
+
+    private static void printMemberAndTeam(Member member) {
+        String username = member.getUsername();
+        System.out.println("username : "+username);
+        Team team = member.getTeam();
+        System.out.println("Team : "+ team.getName());
     }
 }
