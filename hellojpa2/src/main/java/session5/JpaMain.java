@@ -32,6 +32,9 @@ public class JpaMain {
 
             Member m1 = em.find(Member.class, member1.getId()); // Member 는 member로 가져오고
             System.out.println("m1 = "+ m1.getTeam().getClass()); // team 은 proxy로 가져온다
+            System.out.println("==========");
+            m1.getTeam().getName(); // 초기화
+            System.out.println("==========");
 
 
             tx.commit(); // [트랜잭션] 커밋
