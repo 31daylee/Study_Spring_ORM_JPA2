@@ -24,7 +24,11 @@ public class JpaMain {
 
             em.persist(parent);
 
+            em.flush();
+            em.clear();
 
+            Parent parent1 = em.find(Parent.class, parent.getId());
+            parent1.getChildList().remove(0);
 
             tx.commit(); // [트랜잭션] 커밋
         }catch (Exception e){
