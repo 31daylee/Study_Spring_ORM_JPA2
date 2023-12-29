@@ -15,20 +15,15 @@ public class JpaMain {
         tx.begin(); // [트랜잭션] 시작
 
         try {
-            Team team = new Team();
-            team.setName("teamA");
-            em.persist(team);
+            Child child1 = new Child();
+            Child child2 = new Child();
 
-            Member member1 = new Member();
-            member1.setUsername("member1");
-            member1.setTeam(team);
-            em.persist(member1);
+            Parent parent = new Parent();
+            parent.addChild(child1);
+            parent.addChild(child2);
 
-            em.flush();
-            em.clear();
+            em.persist(parent);
 
-            // JPQL 사용 시에 Member 가져오지만 Member에 딸린 Team이 즉시 로딩이기에 한 번 더 쿼리가 날라감
-            List<Member> members = em.createQuery("select m from Member m join fetch m.team", Member.class).getResultList();
 
 
             tx.commit(); // [트랜잭션] 커밋
