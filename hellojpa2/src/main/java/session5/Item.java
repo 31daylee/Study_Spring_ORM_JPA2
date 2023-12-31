@@ -3,7 +3,7 @@ package session5;
 import javax.persistence.*;
 
 @Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS) // 상속과 관련
+@Inheritance(strategy = InheritanceType.JOINED) // 상속과 관련
 @DiscriminatorColumn // 상속과 관련된 엔티티의 이름이 DTYPE = "" 으로 저장된다 -> Joined 에서 사용된다
 public abstract class Item { // 추상클래스로 만들시, 상속받는 클래스만 테이블이 생성되고 Item 테이블은 생성 X
 
