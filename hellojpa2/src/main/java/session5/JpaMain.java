@@ -15,21 +15,12 @@ public class JpaMain {
         tx.begin(); // [트랜잭션] 시작
 
         try {
-            Child child1 = new Child();
-            Child child2 = new Child();
+            Member member = new Member();
+            member.setUsername("hello");
+            member.setHomeAddress(new Address("city","street","100"));
+            member.setWorkPeriod(new Period());
 
-            Parent parent = new Parent();
-            parent.addChild(child1);
-            parent.addChild(child2);
-
-            em.persist(parent);
-
-            em.flush();
-            em.clear();
-
-            Parent parent1 = em.find(Parent.class, parent.getId());
-            parent1.getChildList().remove(0);
-
+            em.persist(member);
             tx.commit(); // [트랜잭션] 커밋
         }catch (Exception e){
             tx.rollback();
@@ -43,14 +34,5 @@ public class JpaMain {
 
     }
 
-    private static void printMember(Member member) {
-        System.out.println("member : "+ member.getUsername());
-    }
 
-    private static void printMemberAndTeam(Member member) {
-        String username = member.getUsername();
-        System.out.println("username : "+username);
-        Team team = member.getTeam();
-        System.out.println("Team : "+ team.getName());
-    }
 }

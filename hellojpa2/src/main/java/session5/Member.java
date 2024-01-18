@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import java.util.concurrent.locks.Lock;
 
 @Entity
-public class Member extends BaseEntity{
+public class Member{
     @Id
     @GeneratedValue
     @Column(name = "MEMBER_ID")
@@ -14,14 +14,10 @@ public class Member extends BaseEntity{
     @Column(name = "USERNAME")
     private String username;
 
-    @ManyToOne(fetch = FetchType.LAZY) // Member 클래스만 DB에서 조회
-    @JoinColumn
-    private Team team;
-
-
-    @OneToOne
-    @JoinColumn(name = "LOCKER_ID")
-    private Locker locker;
+    @Embedded
+    private Period workPeriod;
+    @Embedded
+    private Address homeAddress;
 
 
     public Long getId() {
@@ -40,19 +36,19 @@ public class Member extends BaseEntity{
         this.username = username;
     }
 
-    public Team getTeam() {
-        return team;
+    public Period getWorkPeriod() {
+        return workPeriod;
     }
 
-    public void setTeam(Team team) {
-        this.team = team;
+    public void setWorkPeriod(Period workPeriod) {
+        this.workPeriod = workPeriod;
     }
 
-    public Locker getLocker() {
-        return locker;
+    public Address getHomeAddress() {
+        return homeAddress;
     }
 
-    public void setLocker(Locker locker) {
-        this.locker = locker;
+    public void setHomeAddress(Address homeAddress) {
+        this.homeAddress = homeAddress;
     }
 }
