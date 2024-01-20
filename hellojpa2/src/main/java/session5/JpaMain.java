@@ -1,8 +1,11 @@
 package session5;
 
+import org.hibernate.metamodel.internal.MapMember;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 public class JpaMain {
     public static void main(String[] args) {
@@ -15,19 +18,48 @@ public class JpaMain {
         tx.begin(); // [트랜잭션] 시작
 
         try {
-            Address address = new Address("city","street","100");
             Member member1 = new Member();
-            member1.setUsername("hello1");
-            member1.setHomeAddress(address);
+            member1.setUsername("member1");
+            member1.setHomeAddress(new Address("homeCity", "street","1021"));
+
+            member1.getFavoriteFoods().add("치킨");
+            member1.getFavoriteFoods().add("족발");
+            member1.getFavoriteFoods().add("피자");
+
+            member1.getAddressHistory().add(new Address("old1", "street","10"));
+            member1.getAddressHistory().add(new Address("old2", "street","101"));
+
             em.persist(member1);
 
-            Member member2 = new Member();
-            member2.setUsername("hello2");
-            member2.setHomeAddress(address);
-            em.persist(member2);
+            em.flush();
+            em.clear();
 
-            // 임베디드 타입으로 공유하기에 member1 을 업데이트 했지만 mem1/2 전부 netCity로 업데이트 된다.
-            member1.getHomeAddress().setCity("newCity");
+            System.out.println("=======START========");
+            Member findMember = em.find(Member.class, member1.getId());
+
+/*            List<Address> addressHistory = findMember.getAddressHistory();
+            for(Address address : addressHistory){
+                System.out.println("address : "+address.getCity());
+                System.out.println("address : "+address.getStreet());
+                System.out.println("address : "+address.getZipcode());
+            }
+            Set<String> favoriteFoods = findMember.getFavoriteFoods();
+            for(String food : favoriteFoods){
+                System.out.println("food : " +food);
+            }*/
+            // homeCity -> newCity 값변경
+            Address a = findMember.getHomeAddress();
+            findMember.setHomeAddress(new Address("newCity", a.getStreet(),a.getZipcode()));
+
+            // 컬렉션타입 값 변경
+            // 치킨 -> 한식
+            findMember.getFavoriteFoods().remove("치킨");
+            findMember.getFavoriteFoods().add("한식");
+            
+            // 실행 결과, 한 번의 delete과 두 번의 insert query가 날라간 것을 확인
+            findMember.getAddressHistory().remove(new Address("old1", "street","10"));
+            findMember.getAddressHistory().add(new Address("new1", "street","10"));
+
 
             tx.commit(); // [트랜잭션] 커밋
         }catch (Exception e){
