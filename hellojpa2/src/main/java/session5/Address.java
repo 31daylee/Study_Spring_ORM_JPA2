@@ -31,6 +31,9 @@ public class Address {
         return street;
     }
 
+    
+    // 임베디드 타입(공유해서 사용하는)의 setter를 모두 private로 변경해주거나 setter를 삭제해주므로써 
+    // 값이 변경되는 상황을 방지
     public void setStreet(String street) {
         this.street = street;
     }
