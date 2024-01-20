@@ -3,10 +3,15 @@ package session5;
 public class ValueMain {
     public static void main(String[] args) {
         int a= 10;
-        int b=a;
-        a=20;
+        int b= 10;
+        System.out.println("a==b "+(a==b));
 
-        System.out.println("a= "+a);
-        System.out.println("b= "+b);
+
+        Address address1 = new Address("city","street","100");
+        Address address2 = new Address("city","street","100");
+
+        System.out.println("add1==add2 "+(address1 == address2));
+        System.out.println("add1 equals add2 "+(address1.equals(address2)));
+
     }
 }
