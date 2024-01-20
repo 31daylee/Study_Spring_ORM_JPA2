@@ -26,8 +26,8 @@ public class JpaMain {
             member1.getFavoriteFoods().add("족발");
             member1.getFavoriteFoods().add("피자");
 
-            member1.getAddressHistory().add(new Address("old1", "street","10"));
-            member1.getAddressHistory().add(new Address("old2", "street","101"));
+            member1.getAddressHistory().add(new AddressEntity("old1", "street","10"));
+            member1.getAddressHistory().add(new AddressEntity("old2", "street","101"));
 
             em.persist(member1);
 
@@ -56,9 +56,9 @@ public class JpaMain {
             findMember.getFavoriteFoods().remove("치킨");
             findMember.getFavoriteFoods().add("한식");
             
-            // 실행 결과, 한 번의 delete과 두 번의 insert query가 날라간 것을 확인
-            findMember.getAddressHistory().remove(new Address("old1", "street","10"));
-            findMember.getAddressHistory().add(new Address("new1", "street","10"));
+            // 실행 결과, 한 번의 delete과 두 번의 insert query가 날라간 것을 확인 -> Entity로 변경하여 일대다 관계에서 적용으로 방식 전환
+            findMember.getAddressHistory().remove(new AddressEntity("old1", "street","10"));
+            findMember.getAddressHistory().add(new AddressEntity("new1", "street","10"));
 
 
             tx.commit(); // [트랜잭션] 커밋
