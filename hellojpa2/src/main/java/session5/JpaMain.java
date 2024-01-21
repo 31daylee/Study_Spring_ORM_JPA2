@@ -60,7 +60,6 @@ public class JpaMain {
             findMember.getAddressHistory().remove(new AddressEntity("old1", "street","10"));
             findMember.getAddressHistory().add(new AddressEntity("new1", "street","10"));
 
-
             tx.commit(); // [트랜잭션] 커밋
         }catch (Exception e){
             tx.rollback();
