@@ -31,12 +31,23 @@ public class JpaMain {
 
             em.flush();
             em.clear();
-            List<MemberDTO> result = em.createQuery("select new jpql.MemberDTO(m.username,m.age) from Member m", MemberDTO.class)
+            // session 10 프로젝션
+           /* List<MemberDTO> result = em.createQuery("select new jpql.MemberDTO(m.username,m.age) from Member m", MemberDTO.class)
                     .getResultList();
 
             MemberDTO memberDTO = result.get(0);
             System.out.println("memberDTO = "+memberDTO.getUsername());
-            System.out.println("memberDTO = "+memberDTO.getAge());
+            System.out.println("memberDTO = "+memberDTO.getAge());*/
+
+            List<Member> result = em.createQuery("select m from Member m order by m.age desc ", Member.class)
+                        .setFirstResult(0)
+                        .setMaxResults(10)
+                        .getResultList();
+
+            for(Member member1 : result){
+                System.out.println("member1 = "+member1);
+            }
+
 
             tx.commit(); // [트랜잭션] 커밋
         }catch (Exception e){
