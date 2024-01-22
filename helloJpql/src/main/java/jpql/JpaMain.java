@@ -2,6 +2,7 @@ package jpql;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 public class JpaMain {
     public static void main(String[] args) {
@@ -22,6 +23,7 @@ public class JpaMain {
             member.setUsername("member2");
             member.setAge(10);
             member.setTeam(team);
+            member.setType(MemberType.ADMIN);
             em.persist(member);
 
             /*TypedQuery<Member> query = em.createQuery("select m from Member m", Member.class); // member 클래스 전체
@@ -52,11 +54,21 @@ public class JpaMain {
             for(Member member1 : result){
                 System.out.println("member1 = "+member1);
             }*/
-            String query = "select m from Member m inner join m.team t where t.name = :teamName";
+            // session10 조인
+            /*String query = "select m from Member m inner join m.team t where t.name = :teamName";
 
             List<Member> result = em.createQuery(query, Member.class)
-                    .getResultList();
+                    .getResultList();*/
+            String query = "select m.username, 'HELLO', true from Member m "+
+                            "where m.type = jpql.MemberType.ADMIN";
 
+            List<Object[]> result = em.createQuery(query).getResultList();
+
+            for(Object[] objects : result){
+                System.out.println("objects = "+ objects[0]);
+                System.out.println("objects = "+ objects[1]);
+                System.out.println("objects = "+ objects[2]);
+            }
 
             tx.commit(); // [트랜잭션] 커밋
         }catch (Exception e){
