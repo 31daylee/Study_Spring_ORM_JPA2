@@ -14,10 +14,14 @@ public class JpaMain {
         tx.begin(); // [트랜잭션] 시작
 
         try {
+            Team team = new Team();
+            team.setName("teamA");
+            em.persist(team);
 
             Member member = new Member();
             member.setUsername("member2");
             member.setAge(10);
+            member.setTeam(team);
             em.persist(member);
 
             /*TypedQuery<Member> query = em.createQuery("select m from Member m", Member.class); // member 클래스 전체
@@ -39,14 +43,19 @@ public class JpaMain {
             System.out.println("memberDTO = "+memberDTO.getUsername());
             System.out.println("memberDTO = "+memberDTO.getAge());*/
 
-            List<Member> result = em.createQuery("select m from Member m order by m.age desc ", Member.class)
+            // session 10 페이징
+            /*List<Member> result = em.createQuery("select m from Member m order by m.age desc ", Member.class)
                         .setFirstResult(0)
                         .setMaxResults(10)
                         .getResultList();
 
             for(Member member1 : result){
                 System.out.println("member1 = "+member1);
-            }
+            }*/
+            String query = "select m from Member m inner join m.team t where t.name = :teamName";
+
+            List<Member> result = em.createQuery(query, Member.class)
+                    .getResultList();
 
 
             tx.commit(); // [트랜잭션] 커밋
