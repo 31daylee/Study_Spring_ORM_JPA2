@@ -41,14 +41,12 @@ public class JpaMain {
             em.flush();
             em.clear();
 
-            String query = "select m from Member m where m = :member"; // 엔티티를 파라미터로 전달
-            Member result = em.createQuery(query, Member.class)
-                    .setParameter("member", member1)
-                    .getSingleResult();
+            List<Member> result = em.createNamedQuery("Member.findByUsername", Member.class)
+                    .setParameter("username", "회원1").getResultList();
 
-            System.out.println("findMember = "+ result);
-
-
+            for(Member m : result){
+                System.out.println("member : "+ m);
+            }
 
             tx.commit(); // [트랜잭션] 커밋
         }catch (Exception e){
