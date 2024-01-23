@@ -41,11 +41,11 @@ public class JpaMain {
             em.flush();
             em.clear();
 
-            String query = "select m from Member m join fetch m.team"; //
-            List<Member> result = em.createQuery(query, Member.class).getResultList();
+            String query = "select distinct m from Member m join fetch m.team"; //fetch 를 사용하면서 데이터가 뻥튀기가 됨 => distinct 사용
+            List<Team> result = em.createQuery(query, Team.class).getResultList();
 
-            for(Member member : result){
-                System.out.println("member = "+ member.getUsername() + " , "+ member.getTeam().getName());
+            for(Team team : result){
+                System.out.println("member = "+ team.getName());
                 // 회원1, 팀A(SQL)
                 // 회원2, 팀A(1차캐시)
                 // 회원3, 팀B(SQL)
