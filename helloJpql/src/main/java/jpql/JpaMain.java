@@ -41,17 +41,13 @@ public class JpaMain {
             em.flush();
             em.clear();
 
-            String query = "select distinct m from Member m join fetch m.team"; //fetch 를 사용하면서 데이터가 뻥튀기가 됨 => distinct 사용
-            List<Team> result = em.createQuery(query, Team.class).getResultList();
+            String query = "select m from Member m where m = :member"; // 엔티티를 파라미터로 전달
+            Member result = em.createQuery(query, Member.class)
+                    .setParameter("member", member1)
+                    .getSingleResult();
 
-            for(Team team : result){
-                System.out.println("member = "+ team.getName());
-                // 회원1, 팀A(SQL)
-                // 회원2, 팀A(1차캐시)
-                // 회원3, 팀B(SQL)
+            System.out.println("findMember = "+ result);
 
-                // if 회원 100명 -> N + 1 발생 ->fetch 조인 사용
-            }
 
 
             tx.commit(); // [트랜잭션] 커밋
